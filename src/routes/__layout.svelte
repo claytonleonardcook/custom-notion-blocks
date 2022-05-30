@@ -1,13 +1,12 @@
 <script lang="ts">
-	import '../app.css';
+    import Navbar from './Navbar.svelte';
+    import '../style.css';
 </script>
 
+<Navbar />
 <main>
-	<slot />
+    <slot />
 </main>
 
-<footer>
-	<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
-</footer>
-
-<style></style>
+<style>
+</style>

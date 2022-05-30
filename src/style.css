@@ -1,0 +1,10 @@
+:root {
+    --primary: #ff7d7d;
+    --secondary: #8bb5ff;
+    --spacing: 1rem;
+}
+
+html, body {
+    padding: 0;
+    margin: 0;
+}

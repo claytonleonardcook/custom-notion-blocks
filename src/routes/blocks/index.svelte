@@ -1,0 +1,1 @@
+<h1>index.svelte</h1>

@@ -3,8 +3,8 @@
 </script>
 
 <svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Custom Notion Blocks" />
+	<title>Custom Notion Blocks | Home</title>
+	<!-- <meta name="description" content="Custom Notion Blocks" /> -->
 </svelte:head>
 
 <section>
