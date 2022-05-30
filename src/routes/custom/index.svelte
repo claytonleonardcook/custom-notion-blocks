@@ -1,10 +1,10 @@
 <script lang="ts">
-    let title: string = "";
+    let params: string = "";
 </script>
 
 <section>
     <form>
-        <input type="text" placeholder="Hello World" bind:value={title}/>
+        <input type="text" placeholder="Hello World" bind:value={params}/>
     </form>
     <div>
         <iframe title="block preview" src="http://localhost:3000/blocks/Image?url=https://64.media.tumblr.com/e1d31f60d8703fbfa06144d1cbfb90e4/82376f39f9370e2e-4a/s1280x1920/508f43283d37fc370e41ae26d31355db39ece8d8.jpg" />
@@ -22,6 +22,15 @@
         background-color: var(--primary);
     }
     section > div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         background-color: var(--secondary);
+    }
+    section > div > iframe {
+        max-width: 80%;
+        max-height: 80%;
+        border: dashed black 5px;
+        resize: both;
     }
 </style>
