@@ -28,6 +28,7 @@
 	"type": "module",
 	"dependencies": {
 		"@fontsource/fira-mono": "^4.5.0",
+		"@tsconfig/svelte": "^3.0.0",
 		"cookie": "^0.4.1"
 	}
 }
