@@ -25,12 +25,14 @@
 	section {
 		display: flex;
 		flex-direction: row;
+		align-items: center;
 		height: 100vh;
 		width: 100vw;
 	}
 	section > progress {
 		all: unset;
-		height: 100vh;
+		min-height: 50px;
+		height: 50vh;
 		width: 100vw;
 		border-radius: var(--radius);
 		overflow: hidden;
@@ -54,7 +56,7 @@
 		justify-items: center;
 		color: var(--dark);
 		padding: calc(var(--spacing) / 2);
-		font-size: clamp(0vh, 30vh, 3rem);
+		font-size: 2rem;
 		font-weight: bold;
 	}
 </style>
