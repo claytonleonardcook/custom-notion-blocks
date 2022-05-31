@@ -26,7 +26,7 @@
 			{/each}
 		</fieldset>
 		<output>
-			<button on:click|preventDefault={copyToClipboard}>Copy To Clipboard</button>
+			<button on:click|preventDefault={copyToClipboard}>&#x1F4CB;</button>
 			<input type="url" value={url()} disabled/>
 		</output>
 	</form>
@@ -35,7 +35,7 @@
 			title="block preview"
 			src={url()}
 		/>
-		<div>Drag the bottom right to preview the widget in different sizes</div>
+		<div>&#x2B50; Drag the bottom right to preview the widget in different sizes</div>
 	</div>
 </section>
 
@@ -68,6 +68,9 @@
 	section > form > output > input {
 		flex-grow: 1;
 	}
+	section > form > output > button {
+		cursor: copy;
+	}
 	section > div {
 		display: flex;
 		flex-grow: 10;
@@ -79,13 +82,14 @@
 	section > div > iframe {
 		max-width: 80%;
 		max-height: 80%;
-		width: 50%;
-		height: 50%;
+		width: 80%;
+		height: 10%;
 		border: dashed black 3px;
 		resize: both;
 		margin: 10px;
 		border-radius: var(--radius);
 		border-bottom-right-radius: 0;
+		padding: var(--spacing);
 	}
 	section > div > div {
 		background-color: var(--primary);

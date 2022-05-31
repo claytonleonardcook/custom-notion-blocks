@@ -9,15 +9,18 @@
 				--primary: #ff7d7d;
 				--secondary: #8bb5ff;
 				--spacing: 1rem;
-				--radius: 1rem;
+				--radius: 15px;
 				--font-size: 1rem;
 				--light-gray: #f5f5f5;
+				--dark: #37352f;
 			}
 
 			html, body {
 				padding: 0;
 				margin: 0;
 				font-family: Arial, Helvetica, sans-serif;
+				height: 100vh;
+				width: 100vw;
 			}
 
 			iframe, fieldset {
@@ -28,21 +31,32 @@
 				margin: 0;
 			}
 
-			input {
+			input, button {
 				border: none;
-				font-size: var(--font-size);
 				background-color: var(--secondary);
 				border-radius: calc(var(--radius) / 2);
+			}
+
+			input {
+				font-size: var(--font-size);
 				padding: var(--spacing);
 			}
 
 			input:focus {
 				outline: none;
 			}
+
+			button {
+				font-size: calc(var(--font-size)*2);
+			}
+
+			button:hover {
+				cursor: pointer;
+			}
 		</style>
 		%sveltekit.head%
 	</head>
 	<body>
-		<div>%sveltekit.body%</div>
+		%sveltekit.body%
 	</body>
 </html>
