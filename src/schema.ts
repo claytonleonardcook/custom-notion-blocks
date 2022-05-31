@@ -21,6 +21,11 @@ export const LifeProgressBar = {
 		label: 'What year do you expect to live until?',
 		type: 'number',
 		placeholder: 2100
+	},
+	progressBarColor: {
+		label: 'Progress Bar Color',
+		type: 'color',
+		placeholder: '#000'
 	}
 };
 
