@@ -36,10 +36,10 @@
 		width: 100vw;
 		border-radius: var(--radius);
 		overflow: hidden;
-		border: calc(var(--spacing) / 2) solid var(--dark);
+		border: 3px solid var(--dark);
 		box-sizing: border-box;
-		padding: 10px;
-		margin-right: 10px;
+		padding: 4px;
+		margin: 0 1rem;
 	}
 	section > progress::-webkit-progress-bar {
 		background-color: transparent;
@@ -56,7 +56,8 @@
 		justify-items: center;
 		color: var(--dark);
 		padding: calc(var(--spacing) / 2);
-		font-size: 2rem;
-		font-weight: bold;
+		font-size: 1.5rem;
+		font-style: normal;
+		margin: 0 1rem;
 	}
 </style>
