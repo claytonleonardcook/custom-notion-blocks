@@ -21,8 +21,8 @@
 	<form>
 		<h1>{block}</h1>
 		<fieldset>
-			{#each Object.entries(schema[block]) as [prop, {label, type}]}
-				<Input label={label} type={type} on:change={({target: {value}}) => properties[prop] = value} />
+			{#each Object.entries(schema[block]) as [prop, {label, type, placeholder}]}
+				<Input label={label} type={type} placeholder={placeholder} on:change={({target: {value}}) => properties[prop] = value} />
 			{/each}
 		</fieldset>
 		<output>
