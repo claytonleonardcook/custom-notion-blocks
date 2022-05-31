@@ -1,8 +1,9 @@
 <script lang="ts">
     import { page } from '$app/stores';
     
-    export let url: string = $page.url.searchParams.get('url') || 'url';
-    export let alt: string = $page.url.searchParams.get('alt') || 'alt text';
+    const props: any = JSON.parse($page.url.searchParams.get('props') || "{}");
+    const url: string = props.url || 'http://placekitten.com/200/300';
+    const alt: string = props.alt || 'alt text';
 </script>
 
 <section>
