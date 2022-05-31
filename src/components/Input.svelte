@@ -14,6 +14,8 @@
 
 <style>
     label {
+        display: flex;
+        flex-direction: column;
         margin-top: var(--spacing);
     }
     label > input {

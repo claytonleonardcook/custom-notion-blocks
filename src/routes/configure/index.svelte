@@ -27,15 +27,15 @@
 		</fieldset>
 		<output>
 			<button on:click|preventDefault={copyToClipboard}>Copy To Clipboard</button>
-			<p>{url()}</p>
+			<input type="url" value={url()} disabled/>
 		</output>
 	</form>
 	<div>
-		<div>Hello</div>
 		<iframe
 			title="block preview"
 			src={url()}
 		/>
+		<div>Drag the bottom right to preview the widget in different sizes</div>
 	</div>
 </section>
 
@@ -48,6 +48,7 @@
 	}
 	section > form {
 		display: flex;
+		flex-grow: 4;
 		flex-direction: column;
 		background-color: var(--primary);
 		padding: var(--spacing);
@@ -59,15 +60,17 @@
 		overflow-x: hidden !important;
 		overflow-y: auto !important;
 	}
-	section > form > output > p {
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		width: 100px;
+	section > form > output {
+		display: flex;
+		flex-direction: row;
+		gap: var(--spacing);
+	}
+	section > form > output > input {
+		flex-grow: 1;
 	}
 	section > div {
 		display: flex;
-		flex-grow: 1;
+		flex-grow: 10;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
@@ -79,11 +82,14 @@
 		width: 50%;
 		height: 50%;
 		border: dashed black 3px;
-		padding: var(--spacing);
 		resize: both;
 		margin: 10px;
 		border-radius: var(--radius);
 		border-bottom-right-radius: 0;
 	}
-	
+	section > div > div {
+		background-color: var(--primary);
+		padding: var(--spacing);
+		border-radius: var(--radius);
+	}
 </style>
