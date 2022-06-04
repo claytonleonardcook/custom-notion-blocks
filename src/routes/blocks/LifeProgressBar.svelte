@@ -2,14 +2,14 @@
 	import { page } from '$app/stores';
 
 	const props: any = JSON.parse($page.url.searchParams.get('props') || '{}');
-	const birthday: string = props.birthday || `${new Date().getFullYear()}`;
-	const deathYear: string = props.deathYear || `${new Date().getFullYear() + 1}`;
+	const birth: string = props.birth || `${new Date().getFullYear()}`;
+	const death: string = props.death || `${new Date().getFullYear() + 1}`;
 	const progressBarColor: string = props.progressBarColor || 'var(--dark)';
 
 	function calculatePercentageTimeLeft() {
 		return (
-			(Date.now() - new Date(birthday).valueOf()) /
-			(new Date(deathYear).valueOf() - new Date(birthday).valueOf())
+			(Date.now() - new Date(birth).valueOf()) /
+			(new Date(death).valueOf() - new Date(birth).valueOf())
 		);
 	}
 

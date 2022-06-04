@@ -1,44 +1,35 @@
-export const Image = {
-	url: {
-		label: 'Image URL',
-		type: 'url',
-		placeholder: 'http://placekitten.com/200/300'
+import type { Image, LifeProgressBar } from './types';
+
+const Image: Image = {
+	imageUrl: {
+		label: 'URL',
+		placeholder: 'http://placekitten.com/800/1000',
+		type: 'url'
 	},
-	alt: {
+	altText: {
 		label: 'Alt Text',
-		type: 'text',
-		placeholder: 'Placeholder Alt Text'
+		placeholder: 'AltText',
+		type: 'text'
 	}
 };
 
-export const LifeProgressBar = {
-	birthday: {
+const LifeProgressBar: LifeProgressBar = {
+	birth: {
 		label: 'When is your birthday?',
-		type: 'date',
-		placeholder: 'mm/dd/yyyy'
+		type: 'date'
 	},
-	deathYear: {
-		label: 'What year do you expect to live until?',
-		type: 'number',
-		placeholder: 2100
+	death: {
+		label: 'When do you plan to die?',
+		type: 'date'
 	},
 	progressBarColor: {
-		label: 'Progress Bar Color',
-		type: 'color',
-		placeholder: '#000'
-	}
-};
-
-export const Other = {
-	backgroundColor: {
-		label: 'Background Color',
-		type: 'color',
-		placeholder: '#000'
+		label: 'Color of Progress Bar',
+		placeholder: '#000',
+		type: 'color'
 	}
 };
 
 export default {
 	Image,
-    LifeProgressBar,
-	Other
+    LifeProgressBar
 };

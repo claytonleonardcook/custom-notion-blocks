@@ -2,12 +2,12 @@
     import { page } from '$app/stores';
     
     const props: any = JSON.parse($page.url.searchParams.get('props') || "{}");
-    const url: string = props.url || 'http://placekitten.com/200/300';
-    const alt: string = props.alt || 'alt text';
+    const imageUrl: string = props.imageUrl || 'http://placekitten.com/200/300';
+    const altText: string = props.altText || 'alt text';
 </script>
 
 <section>
-    <img srcset={url} alt={alt}/>
+    <img srcset={imageUrl} alt={altText}/>
 </section>
 
 <style>
