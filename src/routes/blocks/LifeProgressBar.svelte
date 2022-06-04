@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 
-	const props: any = JSON.parse($page.url.searchParams.get('props') || '{}');
-	const birth: string = props.birth || `${new Date().getFullYear()}`;
-	const death: string = props.death || `${new Date().getFullYear() + 1}`;
-	const progressBarColor: string = props.progressBarColor || 'var(--dark)';
+	const birth: string = $page.url.searchParams.get('birth') || `${new Date().getFullYear()}`;
+	const death: string = $page.url.searchParams.get('death') || `${new Date().getFullYear() + 1}`;
+	const progressBarColor: string = $page.url.searchParams.get('progressBarColor') || 'var(--dark)';
+	const isPercentVisible: boolean = Boolean($page.url.searchParams.get('isPercentVisible'));
 
 	function calculatePercentageTimeLeft() {
 		return (
@@ -15,11 +15,14 @@
 
 	$: difference = calculatePercentageTimeLeft();
     setInterval(() => difference = calculatePercentageTimeLeft(), 1000);
+	console.log($page.url.searchParams.get('isPercentVisible'), Boolean($page.url.searchParams.get('isPercentVisible')));
 </script>
 
 <section>
 	<progress style:--progress-bar-color={progressBarColor} value={(difference * 100).toFixed(4)} max="100" />
-	<span>{(difference * 100).toFixed(2)}%</span>
+	{#if isPercentVisible}
+		<span>{(difference * 100).toFixed(2)}%</span>
+	{/if}
 </section>
 
 <style>

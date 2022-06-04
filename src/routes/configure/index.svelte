@@ -8,8 +8,10 @@
 	$: properties = {};
 
     $: url = () => {
-        const props = encodeURIComponent(JSON.stringify(properties));
-        return `${$page.url.origin}/blocks/${block}?props=${props}`;
+        const props = Object.entries(properties).reduce((acc, [key, value]) => {
+			return `${acc}&${key}=${encodeURIComponent(value)}`;
+		}, '');
+        return `${$page.url.origin}/blocks/${block}?${props}`;
     };
 
 	function copyToClipboard() {
@@ -22,7 +24,9 @@
 		<h1>{block}</h1>
 		<fieldset>
 			{#each Object.entries(schema[block]) as [prop, {label, type, placeholder}]}
-				<Input label={label} type={type} placeholder={placeholder} on:change={({target: {value}}) => properties[prop] = value} />
+				<Input label={label} type={type} placeholder={placeholder} on:change={({target: {value, checked}}) => {
+					properties[prop] = value;
+				}} />
 			{/each}
 		</fieldset>
 		<output>
@@ -80,10 +84,10 @@
 		background-color: var(--secondary);
 	}
 	section > div > iframe {
-		max-width: 80%;
-		max-height: 80%;
-		width: 80%;
-		height: 10%;
+		min-width: 180px;
+		max-width: 50%;
+		min-height: 100px;
+		max-height: 50%;
 		border: dashed black 3px;
 		resize: both;
 		margin: 10px;

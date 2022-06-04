@@ -1,6 +1,6 @@
 type Label = string;
 type Placeholder = string;
-type Type = 'url' | 'text' | 'color' | 'number' | 'date' | 'datetime-local' | 'range' | 'email' | 'tel' | 'time' | 'week';
+type Type = 'url' | 'text' | 'color' | 'number' | 'date' | 'datetime-local' | 'range' | 'email' | 'tel' | 'time' | 'week' | 'checkbox' | 'radio';
 
 type Input = {
     label: Label;
@@ -17,4 +17,5 @@ export interface LifeProgressBar {
     birth: Omit<Input, 'placeholder'>;
     death: Omit<Input, 'placeholder'>;
     progressBarColor: Input;
+    isPercentVisible: Input;
 };

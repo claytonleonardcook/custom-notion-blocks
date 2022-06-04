@@ -26,6 +26,11 @@ const LifeProgressBar: LifeProgressBar = {
 		label: 'Color of Progress Bar',
 		placeholder: '#000',
 		type: 'color'
+	},
+	isPercentVisible: {
+		label: 'Display percent text?',
+		placeholder: 'True',
+		type: 'radio'
 	}
 };
 
