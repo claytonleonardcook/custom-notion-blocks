@@ -4,6 +4,16 @@
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!-- Material Icons -->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+		<!-- Roboto -->
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700"
+		/>
+		<!-- Roboto Mono -->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono" />
+		<link rel="stylesheet" href="node_modules/svelte-material-ui/bare.css" />
 		<style>
 			:root {
 				--primary: #ff7d7d;
@@ -15,47 +25,13 @@
 				--dark: #37352f;
 			}
 
-			html, body {
+			html,
+			body {
 				padding: 0;
 				margin: 0;
 				font-family: Arial, Helvetica, sans-serif;
 				height: 100vh;
 				width: 100vw;
-			}
-
-			iframe, fieldset {
-				all: unset;
-			}
-
-			h1, h2, h3, h4, h5, h6 {
-				margin: 0;
-			}
-
-			input, button {
-				border: none;
-				background-color: var(--secondary);
-				border-radius: calc(var(--radius) / 2);
-			}
-
-			input {
-				font-size: var(--font-size);
-				padding: var(--spacing);
-			}
-
-			input[type=color] {
-				padding: calc(var(--spacing)/5);
-			}
-
-			input:focus {
-				outline: none;
-			}
-
-			button {
-				font-size: calc(var(--font-size)*2);
-			}
-
-			button:hover {
-				cursor: pointer;
 			}
 		</style>
 		%sveltekit.head%

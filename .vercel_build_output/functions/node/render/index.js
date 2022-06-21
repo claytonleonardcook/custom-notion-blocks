@@ -182,7 +182,7 @@ var init_multipart_parser = __esm({
         let i2 = 0;
         const length_ = data.length;
         let previousIndex = this.index;
-        let { lookbehind, boundary, boundaryChars, index: index6, state, flags } = this;
+        let { lookbehind, boundary, boundaryChars, index: index3, state, flags } = this;
         const boundaryLength = this.boundary.length;
         const boundaryEnd = boundaryLength - 1;
         const bufferLength = data.length;
@@ -216,20 +216,20 @@ var init_multipart_parser = __esm({
           c = data[i2];
           switch (state) {
             case S.START_BOUNDARY:
-              if (index6 === boundary.length - 2) {
+              if (index3 === boundary.length - 2) {
                 if (c === HYPHEN) {
                   flags |= F.LAST_BOUNDARY;
                 } else if (c !== CR) {
                   return;
                 }
-                index6++;
+                index3++;
                 break;
-              } else if (index6 - 1 === boundary.length - 2) {
+              } else if (index3 - 1 === boundary.length - 2) {
                 if (flags & F.LAST_BOUNDARY && c === HYPHEN) {
                   state = S.END;
                   flags = 0;
                 } else if (!(flags & F.LAST_BOUNDARY) && c === LF) {
-                  index6 = 0;
+                  index3 = 0;
                   callback("onPartBegin");
                   state = S.HEADER_FIELD_START;
                 } else {
@@ -237,29 +237,29 @@ var init_multipart_parser = __esm({
                 }
                 break;
               }
-              if (c !== boundary[index6 + 2]) {
-                index6 = -2;
+              if (c !== boundary[index3 + 2]) {
+                index3 = -2;
               }
-              if (c === boundary[index6 + 2]) {
-                index6++;
+              if (c === boundary[index3 + 2]) {
+                index3++;
               }
               break;
             case S.HEADER_FIELD_START:
               state = S.HEADER_FIELD;
               mark("onHeaderField");
-              index6 = 0;
+              index3 = 0;
             case S.HEADER_FIELD:
               if (c === CR) {
                 clear("onHeaderField");
                 state = S.HEADERS_ALMOST_DONE;
                 break;
               }
-              index6++;
+              index3++;
               if (c === HYPHEN) {
                 break;
               }
               if (c === COLON) {
-                if (index6 === 1) {
+                if (index3 === 1) {
                   return;
                 }
                 dataCallback("onHeaderField", true);
@@ -301,8 +301,8 @@ var init_multipart_parser = __esm({
               state = S.PART_DATA;
               mark("onPartData");
             case S.PART_DATA:
-              previousIndex = index6;
-              if (index6 === 0) {
+              previousIndex = index3;
+              if (index3 === 0) {
                 i2 += boundaryEnd;
                 while (i2 < bufferLength && !(data[i2] in boundaryChars)) {
                   i2 += boundaryLength;
@@ -310,27 +310,27 @@ var init_multipart_parser = __esm({
                 i2 -= boundaryEnd;
                 c = data[i2];
               }
-              if (index6 < boundary.length) {
-                if (boundary[index6] === c) {
-                  if (index6 === 0) {
+              if (index3 < boundary.length) {
+                if (boundary[index3] === c) {
+                  if (index3 === 0) {
                     dataCallback("onPartData", true);
                   }
-                  index6++;
+                  index3++;
                 } else {
-                  index6 = 0;
+                  index3 = 0;
                 }
-              } else if (index6 === boundary.length) {
-                index6++;
+              } else if (index3 === boundary.length) {
+                index3++;
                 if (c === CR) {
                   flags |= F.PART_BOUNDARY;
                 } else if (c === HYPHEN) {
                   flags |= F.LAST_BOUNDARY;
                 } else {
-                  index6 = 0;
+                  index3 = 0;
                 }
-              } else if (index6 - 1 === boundary.length) {
+              } else if (index3 - 1 === boundary.length) {
                 if (flags & F.PART_BOUNDARY) {
-                  index6 = 0;
+                  index3 = 0;
                   if (c === LF) {
                     flags &= ~F.PART_BOUNDARY;
                     callback("onPartEnd");
@@ -344,14 +344,14 @@ var init_multipart_parser = __esm({
                     state = S.END;
                     flags = 0;
                   } else {
-                    index6 = 0;
+                    index3 = 0;
                   }
                 } else {
-                  index6 = 0;
+                  index3 = 0;
                 }
               }
-              if (index6 > 0) {
-                lookbehind[index6 - 1] = c;
+              if (index3 > 0) {
+                lookbehind[index3 - 1] = c;
               } else if (previousIndex > 0) {
                 const _lookbehind = new Uint8Array(lookbehind.buffer, lookbehind.byteOffset, lookbehind.byteLength);
                 callback("onPartData", 0, previousIndex, _lookbehind);
@@ -369,7 +369,7 @@ var init_multipart_parser = __esm({
         dataCallback("onHeaderField");
         dataCallback("onHeaderValue");
         dataCallback("onPartData");
-        this.index = index6;
+        this.index = index3;
         this.state = state;
         this.flags = flags;
       }
@@ -507,9 +507,9 @@ async function consumeBody(data) {
   }
 }
 function fromRawHeaders(headers = []) {
-  return new Headers2(headers.reduce((result, value, index6, array2) => {
-    if (index6 % 2 === 0) {
-      result.push(array2.slice(index6, index6 + 2));
+  return new Headers2(headers.reduce((result, value, index3, array2) => {
+    if (index3 % 2 === 0) {
+      result.push(array2.slice(index3, index3 + 2));
     }
     return result;
   }, []).filter(([name, value]) => {
@@ -886,7 +886,7 @@ var init_polyfills = __esm({
         factory(exports);
       })(commonjsGlobal, function(exports2) {
         const SymbolPolyfill = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? Symbol : (description) => `Symbol(${description})`;
-        function noop4() {
+        function noop3() {
           return void 0;
         }
         function getGlobals() {
@@ -903,7 +903,7 @@ var init_polyfills = __esm({
         function typeIsObject(x2) {
           return typeof x2 === "object" && x2 !== null || typeof x2 === "function";
         }
-        const rethrowAssertionErrorRejection = noop4;
+        const rethrowAssertionErrorRejection = noop3;
         const originalPromise = Promise;
         const originalPromiseThen = Promise.prototype.then;
         const originalPromiseResolve = Promise.resolve.bind(originalPromise);
@@ -1577,10 +1577,10 @@ var init_polyfills = __esm({
           [PullSteps](readRequest) {
             const stream = this._controlledReadableByteStream;
             if (this._queueTotalSize > 0) {
-              const entry6 = this._queue.shift();
-              this._queueTotalSize -= entry6.byteLength;
+              const entry3 = this._queue.shift();
+              this._queueTotalSize -= entry3.byteLength;
               ReadableByteStreamControllerHandleQueueDrain(this);
-              const view = new Uint8Array(entry6.buffer, entry6.byteOffset, entry6.byteLength);
+              const view = new Uint8Array(entry3.buffer, entry3.byteOffset, entry3.byteLength);
               readRequest._chunkSteps(view);
               return;
             }
@@ -3112,7 +3112,7 @@ var init_polyfills = __esm({
                 return newPromise((resolveRead, rejectRead) => {
                   ReadableStreamDefaultReaderRead(reader, {
                     _chunkSteps: (chunk) => {
-                      currentWrite = PerformPromiseThen(WritableStreamDefaultWriterWrite(writer, chunk), void 0, noop4);
+                      currentWrite = PerformPromiseThen(WritableStreamDefaultWriterWrite(writer, chunk), void 0, noop3);
                       resolveRead(false);
                     },
                     _closeSteps: () => resolveRead(true),
@@ -4007,7 +4007,7 @@ var init_polyfills = __esm({
             reader._readIntoRequests = new SimpleQueue();
           }
           const sourceCancelPromise = stream._readableStreamController[CancelSteps](reason);
-          return transformPromiseWith(sourceCancelPromise, noop4);
+          return transformPromiseWith(sourceCancelPromise, noop3);
         }
         function ReadableStreamClose(stream) {
           stream._state = "closed";
@@ -5365,9 +5365,7 @@ var init_polyfills = __esm({
   }
 });
 
-// .svelte-kit/output/server/chunks/index-5c2f6eb5.js
-function noop2() {
-}
+// .svelte-kit/output/server/chunks/index-5f038599.js
 function run(fn) {
   return fn();
 }
@@ -5376,13 +5374,6 @@ function blank_object() {
 }
 function run_all(fns) {
   fns.forEach(run);
-}
-function subscribe(store, ...callbacks) {
-  if (store == null) {
-    return noop2;
-  }
-  const unsub = store.subscribe(...callbacks);
-  return unsub.unsubscribe ? () => unsub.unsubscribe() : unsub;
 }
 function set_current_component(component) {
   current_component = component;
@@ -5396,21 +5387,8 @@ function setContext(key2, context) {
   get_current_component().$$.context.set(key2, context);
   return context;
 }
-function getContext(key2) {
-  return get_current_component().$$.context.get(key2);
-}
 function escape(html) {
   return String(html).replace(/["'&<>]/g, (match) => escaped[match]);
-}
-function escape_attribute_value(value) {
-  return typeof value === "string" ? escape(value) : value;
-}
-function each(items, fn) {
-  let str = "";
-  for (let i2 = 0; i2 < items.length; i2 += 1) {
-    str += fn(items[i2], i2);
-  }
-  return str;
 }
 function validate_component(component, name) {
   if (!component || !component.$$render) {
@@ -5445,7 +5423,7 @@ function create_ssr_component(fn) {
       return {
         html,
         css: {
-          code: Array.from(result.css).map((css9) => css9.code).join("\n"),
+          code: Array.from(result.css).map((css3) => css3.code).join("\n"),
           map: null
         },
         head: result.title + result.head
@@ -5454,22 +5432,9 @@ function create_ssr_component(fn) {
     $$render
   };
 }
-function add_attribute(name, value, boolean) {
-  if (value == null || boolean && !value)
-    return "";
-  const assignment = boolean && value === true ? "" : `="${escape_attribute_value(value.toString())}"`;
-  return ` ${name}${assignment}`;
-}
-function style_object_to_string(style_object) {
-  return Object.keys(style_object).filter((key2) => style_object[key2]).map((key2) => `${key2}: ${style_object[key2]};`).join(" ");
-}
-function add_styles(style_object) {
-  const styles = style_object_to_string(style_object);
-  return styles ? ` style="${styles}"` : "";
-}
 var current_component, escaped, missing_component, on_destroy;
-var init_index_5c2f6eb5 = __esm({
-  ".svelte-kit/output/server/chunks/index-5c2f6eb5.js"() {
+var init_index_5f038599 = __esm({
+  ".svelte-kit/output/server/chunks/index-5f038599.js"() {
     Promise.resolve();
     escaped = {
       '"': "&quot;",
@@ -5491,23 +5456,17 @@ var init_hooks_1c45ba0b = __esm({
   }
 });
 
-// .svelte-kit/output/server/entries/pages/__layout.svelte.js
+// .svelte-kit/output/server/entries/fallbacks/layout.svelte.js
 var layout_svelte_exports = {};
 __export(layout_svelte_exports, {
-  default: () => _layout
+  default: () => Layout
 });
-var css, _layout;
+var Layout;
 var init_layout_svelte = __esm({
-  ".svelte-kit/output/server/entries/pages/__layout.svelte.js"() {
-    init_index_5c2f6eb5();
-    css = {
-      code: ":root{--primary:#ff7d7d;--secondary:#8bb5ff;--spacing:1rem;--radius:1rem;--font-size:1.5rem;--light-gray:#f5f5f5}html, body{padding:0;margin:0;font-family:Arial, Helvetica, sans-serif}iframe, fieldset{all:unset}h1, h2, h3, h4, h5, h6{margin:0}input{display:inline;border:none;font-size:var(--font-size);background-color:var(--secondary);border-radius:calc(var(--radius) / 2);padding:var(--spacing)}input:focus{outline:none}",
-      map: null
-    };
-    _layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-      $$result.css.add(css);
-      return `<main>${slots.default ? slots.default({}) : ``}
-</main>`;
+  ".svelte-kit/output/server/entries/fallbacks/layout.svelte.js"() {
+    init_index_5f038599();
+    Layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      return `${slots.default ? slots.default({}) : ``}`;
     });
   }
 });
@@ -5515,20 +5474,20 @@ var init_layout_svelte = __esm({
 // .svelte-kit/output/server/nodes/0.js
 var __exports = {};
 __export(__exports, {
-  css: () => css2,
+  css: () => css,
   entry: () => entry,
   index: () => index,
   js: () => js,
   module: () => layout_svelte_exports
 });
-var index, entry, js, css2;
+var index, entry, js, css;
 var init__ = __esm({
   ".svelte-kit/output/server/nodes/0.js"() {
     init_layout_svelte();
     index = 0;
-    entry = "pages/__layout.svelte-0c26166f.js";
-    js = ["pages/__layout.svelte-0c26166f.js", "chunks/index-06ee023d.js"];
-    css2 = ["assets/pages/__layout.svelte-c5f76e38.css"];
+    entry = "layout.svelte-8187eef2.js";
+    js = ["layout.svelte-8187eef2.js", "chunks/index-c3650d4a.js"];
+    css = [];
   }
 });
 
@@ -5544,7 +5503,7 @@ function load({ error: error2, status }) {
 var Error2;
 var init_error_svelte = __esm({
   ".svelte-kit/output/server/entries/fallbacks/error.svelte.js"() {
-    init_index_5c2f6eb5();
+    init_index_5f038599();
     Error2 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let { status } = $$props;
       let { error: error2 } = $$props;
@@ -5567,238 +5526,20 @@ ${error2.stack ? `<pre>${escape(error2.stack)}</pre>` : ``}`;
 // .svelte-kit/output/server/nodes/1.js
 var __exports2 = {};
 __export(__exports2, {
-  css: () => css3,
+  css: () => css2,
   entry: () => entry2,
   index: () => index2,
   js: () => js2,
   module: () => error_svelte_exports
 });
-var index2, entry2, js2, css3;
+var index2, entry2, js2, css2;
 var init__2 = __esm({
   ".svelte-kit/output/server/nodes/1.js"() {
     init_error_svelte();
     index2 = 1;
-    entry2 = "error.svelte-100c5a2a.js";
-    js2 = ["error.svelte-100c5a2a.js", "chunks/index-06ee023d.js"];
-    css3 = [];
-  }
-});
-
-// .svelte-kit/output/server/chunks/stores-fa979941.js
-var getStores, page;
-var init_stores_fa979941 = __esm({
-  ".svelte-kit/output/server/chunks/stores-fa979941.js"() {
-    init_index_5c2f6eb5();
-    getStores = () => {
-      const stores = getContext("__svelte__");
-      return {
-        page: {
-          subscribe: stores.page.subscribe
-        },
-        navigating: {
-          subscribe: stores.navigating.subscribe
-        },
-        get preloading() {
-          console.error("stores.preloading is deprecated; use stores.navigating instead");
-          return {
-            subscribe: stores.navigating.subscribe
-          };
-        },
-        session: stores.session,
-        updated: stores.updated
-      };
-    };
-    page = {
-      subscribe(fn) {
-        const store = getStores().page;
-        return store.subscribe(fn);
-      }
-    };
-  }
-});
-
-// .svelte-kit/output/server/entries/pages/configure/index.svelte.js
-var index_svelte_exports = {};
-__export(index_svelte_exports, {
-  default: () => Configure
-});
-var Image, Other, schema, css$1, Input, css4, Configure;
-var init_index_svelte = __esm({
-  ".svelte-kit/output/server/entries/pages/configure/index.svelte.js"() {
-    init_index_5c2f6eb5();
-    init_stores_fa979941();
-    Image = {
-      url: {
-        label: "Image URL",
-        type: "url"
-      },
-      alt: {
-        label: "Alt Text",
-        type: "text"
-      }
-    };
-    Other = {
-      backgroundColor: {
-        label: "Background Color",
-        type: "color"
-      }
-    };
-    schema = {
-      Image,
-      Other
-    };
-    css$1 = {
-      code: "label.svelte-5v5d0y.svelte-5v5d0y{margin-top:var(--spacing)}label.svelte-5v5d0y>input.svelte-5v5d0y{margin-top:calc(var(--spacing)/2)}",
-      map: null
-    };
-    Input = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-      let { label, type } = $$props;
-      if ($$props.label === void 0 && $$bindings.label && label !== void 0)
-        $$bindings.label(label);
-      if ($$props.type === void 0 && $$bindings.type && type !== void 0)
-        $$bindings.type(type);
-      $$result.css.add(css$1);
-      return `<label class="${"svelte-5v5d0y"}">${escape(label)}
-    <br>
-    <input class="${"svelte-5v5d0y"}">
-</label>`;
-    });
-    css4 = {
-      code: "section.svelte-1jdhsfn.svelte-1jdhsfn.svelte-1jdhsfn.svelte-1jdhsfn{display:flex;flex-direction:row;width:100vw;height:100vh}section.svelte-1jdhsfn>form.svelte-1jdhsfn.svelte-1jdhsfn.svelte-1jdhsfn{display:flex;flex-direction:column;background-color:var(--primary);padding:var(--spacing)}section.svelte-1jdhsfn>form.svelte-1jdhsfn>fieldset.svelte-1jdhsfn.svelte-1jdhsfn{display:flex;flex-grow:1;flex-direction:column;overflow-x:hidden !important;overflow-y:auto !important}section.svelte-1jdhsfn>form.svelte-1jdhsfn>output.svelte-1jdhsfn>p.svelte-1jdhsfn{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:100px}section.svelte-1jdhsfn>div.svelte-1jdhsfn.svelte-1jdhsfn.svelte-1jdhsfn{display:flex;flex-grow:1;flex-direction:column;justify-content:center;align-items:center;background-color:var(--secondary)}section.svelte-1jdhsfn>div.svelte-1jdhsfn>iframe.svelte-1jdhsfn.svelte-1jdhsfn{max-width:80%;max-height:80%;width:50%;height:50%;border:dashed black 3px;padding:var(--spacing);resize:both;margin:10px;border-radius:var(--radius);border-bottom-right-radius:0}",
-      map: null
-    };
-    Configure = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-      let properties;
-      let url;
-      let $page, $$unsubscribe_page;
-      $$unsubscribe_page = subscribe(page, (value) => $page = value);
-      const block = $page.url.searchParams.get("block") || "Image";
-      $$result.css.add(css4);
-      properties = {};
-      url = () => {
-        const props = encodeURIComponent(JSON.stringify(properties));
-        return `${$page.url.origin}/blocks/${block}?props=${props}`;
-      };
-      $$unsubscribe_page();
-      return `<section class="${"svelte-1jdhsfn"}"><form class="${"svelte-1jdhsfn"}"><h1>${escape(block)}</h1>
-		<fieldset class="${"svelte-1jdhsfn"}">${each(Object.entries(schema[block]), ([prop, { label, type }]) => {
-        return `${validate_component(Input, "Input").$$render($$result, { label, type }, {}, {})}`;
-      })}</fieldset>
-		<output class="${"svelte-1jdhsfn"}"><button>Copy To Clipboard</button>
-			<p class="${"svelte-1jdhsfn"}">${escape(url())}</p></output></form>
-	<div class="${"svelte-1jdhsfn"}"><div>Hello</div>
-		<iframe title="${"block preview"}"${add_attribute("src", url(), 0)} class="${"svelte-1jdhsfn"}"></iframe></div>
-</section>`;
-    });
-  }
-});
-
-// .svelte-kit/output/server/nodes/4.js
-var __exports3 = {};
-__export(__exports3, {
-  css: () => css5,
-  entry: () => entry3,
-  index: () => index3,
-  js: () => js3,
-  module: () => index_svelte_exports
-});
-var index3, entry3, js3, css5;
-var init__3 = __esm({
-  ".svelte-kit/output/server/nodes/4.js"() {
-    init_index_svelte();
-    index3 = 4;
-    entry3 = "pages/configure/index.svelte-67875861.js";
-    js3 = ["pages/configure/index.svelte-67875861.js", "chunks/index-06ee023d.js", "chunks/stores-02a6f049.js"];
-    css5 = ["assets/pages/configure/index.svelte-d61afa76.css"];
-  }
-});
-
-// .svelte-kit/output/server/entries/pages/blocks/Image.svelte.js
-var Image_svelte_exports = {};
-__export(Image_svelte_exports, {
-  default: () => Image2
-});
-var css6, Image2;
-var init_Image_svelte = __esm({
-  ".svelte-kit/output/server/entries/pages/blocks/Image.svelte.js"() {
-    init_index_5c2f6eb5();
-    init_stores_fa979941();
-    css6 = {
-      code: "section.svelte-1m0ht00.svelte-1m0ht00{display:flex;justify-content:center;align-self:center;width:100vw;height:100vh}section.svelte-1m0ht00>img.svelte-1m0ht00{max-width:100vw;max-height:100vh;object-fit:contain}",
-      map: null
-    };
-    Image2 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-      let $page, $$unsubscribe_page;
-      $$unsubscribe_page = subscribe(page, (value) => $page = value);
-      const props = JSON.parse($page.url.searchParams.get("props") || "{}");
-      const url = props.url || "http://placekitten.com/200/300";
-      const alt = props.alt || "alt text";
-      $$result.css.add(css6);
-      $$unsubscribe_page();
-      return `<section class="${"svelte-1m0ht00"}"><img${add_attribute("srcset", url, 0)}${add_attribute("alt", alt, 0)} class="${"svelte-1m0ht00"}">
-</section>`;
-    });
-  }
-});
-
-// .svelte-kit/output/server/nodes/2.js
-var __exports4 = {};
-__export(__exports4, {
-  css: () => css7,
-  entry: () => entry4,
-  index: () => index4,
-  js: () => js4,
-  module: () => Image_svelte_exports
-});
-var index4, entry4, js4, css7;
-var init__4 = __esm({
-  ".svelte-kit/output/server/nodes/2.js"() {
-    init_Image_svelte();
-    index4 = 2;
-    entry4 = "pages/blocks/Image.svelte-34f6b707.js";
-    js4 = ["pages/blocks/Image.svelte-34f6b707.js", "chunks/index-06ee023d.js", "chunks/stores-02a6f049.js"];
-    css7 = ["assets/pages/blocks/Image.svelte-b76e80d2.css"];
-  }
-});
-
-// .svelte-kit/output/server/entries/pages/blocks/Other.svelte.js
-var Other_svelte_exports = {};
-__export(Other_svelte_exports, {
-  default: () => Other2
-});
-var Other2;
-var init_Other_svelte = __esm({
-  ".svelte-kit/output/server/entries/pages/blocks/Other.svelte.js"() {
-    init_index_5c2f6eb5();
-    init_stores_fa979941();
-    Other2 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-      let $page, $$unsubscribe_page;
-      $$unsubscribe_page = subscribe(page, (value) => $page = value);
-      const props = JSON.parse($page.url.searchParams.get("props") || "{}");
-      const backgroundColor = props.backgroundColor || "#0000";
-      $$unsubscribe_page();
-      return `<h1${add_styles({ "background-color": backgroundColor })}>Other</h1>`;
-    });
-  }
-});
-
-// .svelte-kit/output/server/nodes/3.js
-var __exports5 = {};
-__export(__exports5, {
-  css: () => css8,
-  entry: () => entry5,
-  index: () => index5,
-  js: () => js5,
-  module: () => Other_svelte_exports
-});
-var index5, entry5, js5, css8;
-var init__5 = __esm({
-  ".svelte-kit/output/server/nodes/3.js"() {
-    init_Other_svelte();
-    index5 = 3;
-    entry5 = "pages/blocks/Other.svelte-ab54f91a.js";
-    js5 = ["pages/blocks/Other.svelte-ab54f91a.js", "chunks/index-06ee023d.js", "chunks/stores-02a6f049.js"];
-    css8 = [];
+    entry2 = "error.svelte-61066a60.js";
+    js2 = ["error.svelte-61066a60.js", "chunks/index-c3650d4a.js"];
+    css2 = [];
   }
 });
 
@@ -6024,7 +5765,7 @@ async function setResponse(res, response) {
 }
 
 // .svelte-kit/output/server/index.js
-init_index_5c2f6eb5();
+init_index_5f038599();
 var __defProp2 = Object.defineProperty;
 var __defProps = Object.defineProperties;
 var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
@@ -6060,38 +5801,31 @@ function afterUpdate() {
 }
 var Root = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let { stores } = $$props;
-  let { page: page2 } = $$props;
+  let { page } = $$props;
   let { components } = $$props;
   let { props_0 = null } = $$props;
   let { props_1 = null } = $$props;
-  let { props_2 = null } = $$props;
   setContext("__svelte__", stores);
   afterUpdate(stores.page.notify);
   if ($$props.stores === void 0 && $$bindings.stores && stores !== void 0)
     $$bindings.stores(stores);
-  if ($$props.page === void 0 && $$bindings.page && page2 !== void 0)
-    $$bindings.page(page2);
+  if ($$props.page === void 0 && $$bindings.page && page !== void 0)
+    $$bindings.page(page);
   if ($$props.components === void 0 && $$bindings.components && components !== void 0)
     $$bindings.components(components);
   if ($$props.props_0 === void 0 && $$bindings.props_0 && props_0 !== void 0)
     $$bindings.props_0(props_0);
   if ($$props.props_1 === void 0 && $$bindings.props_1 && props_1 !== void 0)
     $$bindings.props_1(props_1);
-  if ($$props.props_2 === void 0 && $$bindings.props_2 && props_2 !== void 0)
-    $$bindings.props_2(props_2);
   {
-    stores.page.set(page2);
+    stores.page.set(page);
   }
   return `
 
 
 ${components[1] ? `${validate_component(components[0] || missing_component, "svelte:component").$$render($$result, Object.assign(props_0 || {}), {}, {
     default: () => {
-      return `${components[2] ? `${validate_component(components[1] || missing_component, "svelte:component").$$render($$result, Object.assign(props_1 || {}), {}, {
-        default: () => {
-          return `${validate_component(components[2] || missing_component, "svelte:component").$$render($$result, Object.assign(props_2 || {}), {}, {})}`;
-        }
-      })}` : `${validate_component(components[1] || missing_component, "svelte:component").$$render($$result, Object.assign(props_1 || {}), {}, {})}`}`;
+      return `${validate_component(components[1] || missing_component, "svelte:component").$$render($$result, Object.assign(props_1 || {}), {}, {})}`;
     }
   })}` : `${validate_component(components[0] || missing_component, "svelte:component").$$render($$result, Object.assign(props_0 || {}), {}, {})}`}
 
@@ -6295,12 +6029,12 @@ function devalue(value) {
   }
   walk(value);
   var names = /* @__PURE__ */ new Map();
-  Array.from(counts).filter(function(entry6) {
-    return entry6[1] > 1;
+  Array.from(counts).filter(function(entry3) {
+    return entry3[1] > 1;
   }).sort(function(a, b) {
     return b[1] - a[1];
-  }).forEach(function(entry6, i2) {
-    names.set(entry6[0], getName(i2));
+  }).forEach(function(entry3, i2) {
+    names.set(entry3[0], getName(i2));
   });
   function stringify(thing) {
     if (names.has(thing)) {
@@ -6456,7 +6190,7 @@ function stringifyString(str) {
   result += '"';
   return result;
 }
-function noop3() {
+function noop2() {
 }
 function safe_not_equal(a, b) {
   return a != a ? b == b : a !== b || (a && typeof a === "object" || typeof a === "function");
@@ -6468,7 +6202,7 @@ function readable(value, start) {
     subscribe: writable(value, start).subscribe
   };
 }
-function writable(value, start = noop3) {
+function writable(value, start = noop2) {
   let stop;
   const subscribers = /* @__PURE__ */ new Set();
   function set(new_value) {
@@ -6492,11 +6226,11 @@ function writable(value, start = noop3) {
   function update(fn) {
     set(fn(value));
   }
-  function subscribe2(run2, invalidate = noop3) {
+  function subscribe(run2, invalidate = noop2) {
     const subscriber = [run2, invalidate];
     subscribers.add(subscriber);
     if (subscribers.size === 1) {
-      stop = start(set) || noop3;
+      stop = start(set) || noop2;
     }
     run2(value);
     return () => {
@@ -6507,7 +6241,7 @@ function writable(value, start = noop3) {
       }
     };
   }
-  return { set, update, subscribe: subscribe2 };
+  return { set, update, subscribe };
 }
 function coalesce_to_error(err) {
   return err instanceof Error || err && err.name && err.message ? err : new Error(JSON.stringify(err));
@@ -7023,20 +6757,20 @@ function parse$1(str, options) {
   var obj = {};
   var opt = options || {};
   var dec = opt.decode || decode;
-  var index6 = 0;
-  while (index6 < str.length) {
-    var eqIdx = str.indexOf("=", index6);
+  var index3 = 0;
+  while (index3 < str.length) {
+    var eqIdx = str.indexOf("=", index3);
     if (eqIdx === -1) {
       break;
     }
-    var endIdx = str.indexOf(";", index6);
+    var endIdx = str.indexOf(";", index3);
     if (endIdx === -1) {
       endIdx = str.length;
     } else if (endIdx < eqIdx) {
-      index6 = str.lastIndexOf(";", eqIdx - 1) + 1;
+      index3 = str.lastIndexOf(";", eqIdx - 1) + 1;
       continue;
     }
-    var key2 = str.slice(index6, eqIdx).trim();
+    var key2 = str.slice(index3, eqIdx).trim();
     if (obj[key2] === void 0) {
       var val = str.slice(eqIdx + 1, endIdx).trim();
       if (val.charCodeAt(0) === 34) {
@@ -7044,7 +6778,7 @@ function parse$1(str, options) {
       }
       obj[key2] = tryDecode(val, dec);
     }
-    index6 = endIdx + 1;
+    index3 = endIdx + 1;
   }
   return obj;
 }
@@ -7856,8 +7590,8 @@ async function respond$1(opts) {
         if (error2) {
           while (i2--) {
             if (route.b[i2]) {
-              const index6 = route.b[i2];
-              const error_node = await options.manifest._.nodes[index6]();
+              const index3 = route.b[i2];
+              const error_node = await options.manifest._.nodes[index3]();
               let node_loaded;
               let j = i2;
               while (!(node_loaded = branch[j])) {
@@ -8249,7 +7983,7 @@ function set_paths(paths) {
   base = paths.base;
   assets = paths.assets || base;
 }
-var template = ({ head, body, assets: assets2, nonce }) => '<!DOCTYPE html>\n<html lang="en">\n	<head>\n		<meta charset="utf-8" />\n		<link rel="icon" href="' + assets2 + '/favicon.png" />\n		<meta name="viewport" content="width=device-width, initial-scale=1" />\n		' + head + "\n	</head>\n	<body>\n		<div>" + body + "</div>\n	</body>\n</html>\n";
+var template = ({ head, body, assets: assets2, nonce }) => '<!DOCTYPE html>\n<html lang="en">\n	<head>\n		<meta charset="utf-8" />\n		<link rel="icon" href="' + assets2 + '/favicon.png" />\n		<meta name="viewport" content="width=device-width, initial-scale=1" />\n		<!-- Material Icons -->\n		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />\n		<!-- Roboto -->\n		<link\n			rel="stylesheet"\n			href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700"\n		/>\n		<!-- Roboto Mono -->\n		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono" />\n		<link rel="stylesheet" href="node_modules/svelte-material-ui/bare.css" />\n		<style>\n			:root {\n				--primary: #ff7d7d;\n				--secondary: #8bb5ff;\n				--spacing: 1rem;\n				--radius: 15px;\n				--font-size: 1rem;\n				--light-gray: #f5f5f5;\n				--dark: #37352f;\n			}\n\n			html,\n			body {\n				padding: 0;\n				margin: 0;\n				font-family: Arial, Helvetica, sans-serif;\n				height: 100vh;\n				width: 100vw;\n			}\n		</style>\n		' + head + "\n	</head>\n	<body>\n		" + body + "\n	</body>\n</html>\n";
 var read = null;
 set_paths({ "base": "", "assets": "" });
 var Server = class {
@@ -8311,49 +8045,12 @@ var manifest = {
   assets: /* @__PURE__ */ new Set(["favicon.png"]),
   mimeTypes: { ".png": "image/png" },
   _: {
-    entry: { "file": "start-6ed65cd6.js", "js": ["start-6ed65cd6.js", "chunks/index-06ee023d.js"], "css": [] },
+    entry: { "file": "start-ec7f4560.js", "js": ["start-ec7f4560.js", "chunks/index-c3650d4a.js"], "css": [] },
     nodes: [
       () => Promise.resolve().then(() => (init__(), __exports)),
-      () => Promise.resolve().then(() => (init__2(), __exports2)),
-      () => Promise.resolve().then(() => (init__3(), __exports3)),
-      () => Promise.resolve().then(() => (init__4(), __exports4)),
-      () => Promise.resolve().then(() => (init__5(), __exports5))
+      () => Promise.resolve().then(() => (init__2(), __exports2))
     ],
-    routes: [
-      {
-        type: "page",
-        id: "configure",
-        pattern: /^\/configure\/?$/,
-        names: [],
-        types: [],
-        path: "/configure",
-        shadow: null,
-        a: [0, 2],
-        b: [1]
-      },
-      {
-        type: "page",
-        id: "blocks/Image",
-        pattern: /^\/blocks\/Image\/?$/,
-        names: [],
-        types: [],
-        path: "/blocks/Image",
-        shadow: null,
-        a: [0, 3],
-        b: [1]
-      },
-      {
-        type: "page",
-        id: "blocks/Other",
-        pattern: /^\/blocks\/Other\/?$/,
-        names: [],
-        types: [],
-        path: "/blocks/Other",
-        shadow: null,
-        a: [0, 4],
-        b: [1]
-      }
-    ],
+    routes: [],
     matchers: async () => {
       return {};
     }
